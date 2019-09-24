@@ -4,7 +4,7 @@ Nginx AWS EC2 box
 # Purpose
 This repository contains the minimal code and instructions ot create an AWS EC2 instance box with Nginx web server.
 
-To learn more about the mentioned tools and technologies -  please check section [Technologies near the end of the README](technologies)
+To learn more about the mentioned tools and technologies -  please check section [Technologies near the end of the README](#technologies)
 
 # Instructions
 
@@ -21,41 +21,43 @@ To learn more about the mentioned tools and technologies -  please check section
  ```
 - Now to create the AWS EC2 box with Nginx we are going to use Packer and [template](nginx-aws-template.json) with [provision scripts](scripts) provided in this repo.
 *Note: It is going to take some time, as Packer need to start instnce, wait for it to be up and running, provision and then pack everything into an AMI - format of images used in Amazon EC2*
-For the simplification of the process it is convenient to use the credentials in the command line. However, it is potentially insecure. See official  documentation for [other ways to specify Amazon credentials](https://www.packer.io/docs/builders/amazon.html#specifying-amazon-credentials).
+
+To simplify the process we use the credentials in the command line. However, it is potentially insecure. See official  documentation for [other ways to specify Amazon credentials](https://www.packer.io/docs/builders/amazon.html#specifying-amazon-credentials).
  ```
  packer build \
     -var 'aws_access_key=YOUR ACCESS KEY' \
     -var 'aws_secret_key=YOUR SECRET KEY' \ 
     nginx-aws-template.json
  ```
- You should see these line at the start :
-```
-amazon-ebs output will be in this color.
+ You should see these lines at the start of the output :
+ ```
+ amazon-ebs output will be in this color.
 
-==> amazon-ebs: Prevalidating AMI Name: nginx-aws 1569332194
-    amazon-ebs: Found Image ID: ami-04763b3055de4860b
-==> amazon-ebs: Creating temporary keypair: packer_5d8a1be2-2948-0eed-5676-ce819d11def2
-==> amazon-ebs: Creating temporary security group for this instance: packer_5d8a1be6-c9fc-084f-5a01-94d65bebce1d
-==> amazon-ebs: Authorizing access to port 22 from [0.0.0.0/0] in the temporary security groups...
-==> amazon-ebs: Launching a source AWS instance...
-```
->>> ( skipping ret of the output 
+ ==> amazon-ebs: Prevalidating AMI Name: nginx-aws 1569332194
+     amazon-ebs: Found Image ID: ami-04763b3055de4860b
+ ==> amazon-ebs: Creating temporary keypair: packer_5d8a1be2-2948-0eed-5676-ce819d11def2
+ ==> amazon-ebs: Creating temporary security group for this instance: packer_5d8a1be6-c9fc-084f-5a01-94d65bebce1d
+ ==> amazon-ebs: Authorizing access to port 22 from [0.0.0.0/0] in the temporary security groups...
+ ==> amazon-ebs: Launching a source AWS instance...
+ ```
+>>> we skipping several pages of output here, and jumping to the end of it
+
 And in the case of successful process completion you would see these *last lines* :
-```
-==> amazon-ebs: Creating AMI nginx-aws 1569332194 from instance i-0c1a055e58ca2f7ad
-    amazon-ebs: AMI: ami-05109863b0a1a6a3e
-==> amazon-ebs: Waiting for AMI to become ready...
-==> amazon-ebs: Terminating the source AWS instance...
-==> amazon-ebs: Cleaning up any extra volumes...
-==> amazon-ebs: No volumes to clean up, skipping
-==> amazon-ebs: Deleting temporary security group...
-==> amazon-ebs: Deleting temporary keypair...
-Build 'amazon-ebs' finished.
+ ```
+ ==> amazon-ebs: Creating AMI nginx-aws 1569332194 from instance i-0c1a055e58ca2f7ad
+     amazon-ebs: AMI: ami-05109863b0a1a6a3e
+ ==> amazon-ebs: Waiting for AMI to become ready...
+ ==> amazon-ebs: Terminating the source AWS instance...
+ ==> amazon-ebs: Cleaning up any extra volumes...
+ ==> amazon-ebs: No volumes to clean up, skipping
+ ==> amazon-ebs: Deleting temporary security group...
+ ==> amazon-ebs: Deleting temporary keypair...
+ Build 'amazon-ebs' finished.
 
-==> Builds finished. The artifacts of successful builds are:
---> amazon-ebs: AMIs were created:
-us-east-1: ami-05109863b0a1a6a3e
-```
+ ==> Builds finished. The artifacts of successful builds are:
+ --> amazon-ebs: AMIs were created:
+ us-east-1: ami-05109863b0a1a6a3e
+ ```
 Here - at the end of the run Packer outputs the artifacts that were created as part of the build. Artifacts are the results of a build, and typically represent an ID (such as in the case of an AMI) or a set of files (such as for a VMware virtual machine). In this example, we only have a single artifact: the AMI in us-east-1 that was created with ID  : **ami-05109863b0a1a6a3e** 
 
 This AMI is ready to use. If you wanted you could go and launch this AMI right now and it would work great.
@@ -69,14 +71,11 @@ This ends up instruction block, thank you.
 # Technologies
 
 1. **To download the content of this repository** you will need **git command-line tools**(recommended) or **Git UI Client**. To install official command-line Git tools please [find here instructions](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) for various operating systems. 
-2. **This box for virtualization** uses **AWS EC2** - Amazon Elastic Compute Cloud (Amazon EC2 for short) - a web service that provides secure, resizable compute capacity in the cloud. It is designed to make web-scale cloud computing easier for developers. You can read in details and create a free try-out account if you don't have one here :  [Amazone EC2 main page](https://aws.amazon.com/ec2/) 
-3. **For creating base box image** from scratch we need **Packer** - an open-source tool for creating identical machine images for multiple platforms from a single source configuration.  You can [download binaries for your platform here](https://www.packer.io/downloads.html)  and then [follow this installation instruction](https://www.packer.io/intro/getting-started/install.html#precompiled-binaries).  In our case Packer is going to take care of installing OS into VM, communicating with it, doing basic provision and preparing for us packed Vagrant box, ready to use.
-
-4. **Nginx stands apart - as it will be downloaded and installed automatically during the provision.** Nginx is an open source HTTP Web server and reverse proxy server.In addition to offering HTTP server capabilities, Nginx can also operate as an IMAP/POP3 mail proxy server as well as function as a load balancer and HTTP cache server. You can get more information about it check [offical website here](https://www.nginx.com)  
+2. **This box for virtualization** uses **AWS EC2** - Amazon Elastic Compute Cloud (Amazon EC2 for short) - a web service that provides secure, resizable compute capacity in the cloud. It is designed to make web-scale cloud computing easier for developers. You can read in details and create a free try-out account if you don't have one here :  [Amazon EC2 main page](https://aws.amazon.com/ec2/) 
+3. **For creating AWS EC2 image** we need **Packer** - an open-source tool for creating identical machine images for multiple platforms from a single source configuration.  You can [download binaries for your platform here](https://www.packer.io/downloads.html)  and then [follow this installation instruction](https://www.packer.io/intro/getting-started/install.html#precompiled-binaries).  
+4. **Nginx stands apart - as it will be downloaded and installed automatically during the provision.** Nginx is an open source HTTP Web server and reverse proxy server.In addition to offering HTTP server capabilities, Nginx can also operate as an IMAP/POP3 mail proxy server as well as function as a load balancer and HTTP cache server. You can get more information about it check [official website here](https://www.nginx.com)  
 
 # TODO 
-
-- [ ] update instruction
 
 
 # DONE
@@ -86,3 +85,4 @@ This ends up instruction block, thank you.
 - [x] update instructions for the security and AWS credentials approach
 - [X] create initial Packer template with default bare minimal system
 - [X] add Nginx provision into template
+- [x] update instructions
