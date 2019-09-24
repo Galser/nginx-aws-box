@@ -21,7 +21,6 @@ To learn more about the mentioned tools and technologies -  please check section
 
 # TODO 
 
-- [ ] create inital Packer template with default bare minimal system
 - [ ] add Nginx provision into template
 - [ ] update instruction
 
@@ -30,4 +29,4 @@ To learn more about the mentioned tools and technologies -  please check section
 - [x] make initial README
 - [x] prepare AWS creds in env vars
 - [x] update instructions for the security and AWS credentials approach
-
+- [X] create initial Packer template with default bare minimal system
