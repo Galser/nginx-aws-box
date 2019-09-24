@@ -64,8 +64,9 @@ This AMI is ready to use. If you wanted you could go and launch this AMI right n
 
   > Note: Your AMI ID will surely be different than the one above. If you try to launch the one in the example output above, you will get an error. If you want to try to launch your AMI, get the ID from the **your** Packer output.
 
-This ends up instruction block, thank you. 
+- **Important last word** - Packer only builds images. It does not attempt to manage them in any way. After they're built, it is up to you to launch or destroy them as you see fit. After running the above example, **your AWS account now has an AMI associated with it. AMIs are stored in S3 by Amazon, so unless you want to be charged about $0.01 per month, you'll probably want to remove it**. Remove the AMI by first deregistering it on the [AWS AMI management page](https://console.aws.amazon.com/ec2/home?region=us-east-1#s=Images). Next, delete the associated snapshot on the [AWS snapshot management page](https://console.aws.amazon.com/ec2/home?region=us-east-1#s=Snapshots).
 
+This concludes the instructions block, thank you.
 
 
 # Technologies
@@ -86,3 +87,4 @@ This ends up instruction block, thank you.
 - [X] create initial Packer template with default bare minimal system
 - [X] add Nginx provision into template
 - [x] update instructions
+- [x] updated note about resource usage in AWS
