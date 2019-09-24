@@ -2,9 +2,9 @@
 Nginx AWS EC2 box
 
 # Purpose
-This repository contains the minimal code and instructions ot create an AWS EC2 instance box with Nginx web server.
+This repository contains the minimal code and instructions required to create an **AWS EC2** instance box with **Nginx** web server.
 
-To learn more about the mentioned tools and technologies -  please check section [Technologies near the end of the README](#technologies)
+To learn more about the mentioned above tools and technologies -  please check section [Technologies near the end of the README](#technologies)
 
 # Instructions
 
